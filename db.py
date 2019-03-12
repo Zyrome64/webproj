@@ -50,9 +50,9 @@ class UsersModel:
         rows = cursor.fetchall()
         return rows
 
-
-db = DB()
-nm = UsersModel(db.get_connection())
-nm.init_table()
-print(nm.insert('user', 'pass'))
-print(nm.get_all())
+if __name__ == '__main__':
+    db = DB()
+    nm = UsersModel(db.get_connection())
+    nm.init_table()
+    print(nm.insert('user', 'pass'))
+    print(nm.get_all())
