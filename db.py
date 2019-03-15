@@ -3,8 +3,8 @@ import sqlite3
  
 class DB:
     def __init__(self):
-        conn = sqlite3.connect('users.db', check_same_thread=False)
-        self.conn = conn
+        self.conn = sqlite3.connect('C:\\temp\\web\\users.db', check_same_thread=False)
+##        self.conn = conn
  
     def get_connection(self):
         return self.conn
@@ -13,7 +13,7 @@ class DB:
         self.conn.close()
 
 
-class UsersModel:
+class UserModel:
     def __init__(self, connection):
         self.connection = connection
 
@@ -50,9 +50,9 @@ class UsersModel:
         rows = cursor.fetchall()
         return rows
 
-if __name__ == '__main__':
-    db = DB()
-    nm = UsersModel(db.get_connection())
-    nm.init_table()
-    print(nm.insert('user', 'pass'))
-    print(nm.get_all())
+    def exists(self, user_name, password_hash):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM users WHERE user_name = ? AND password_hash = ?",
+                       (user_name, password_hash))
+        row = cursor.fetchone()
+        return (True, row[0]) if row else (False,)
