@@ -1,16 +1,16 @@
 ﻿{% extends "base.html" %}
  
 {% block content %}
-    <h1>Авторизация</h1>
-
+    <h1>Регистрация</h1>
+    
 {% if error != "" %}
         <div class="alert alert-danger" role="alert">{{error}}</div> {% endif %}
-    <form action="" method="post" novalidate>
+<form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
             {{ form.username }}<br>
-            {% for error in form.username.errors %}
+           {% for error in form.username.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
@@ -25,7 +25,6 @@
                 </div>
             {% endfor %}
         </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-       <p>{{ form.submit() }}</p> <a href="/register">Регистрация</a>
+          <p>{{ form.submit() }}</p> <a href="/login">Логин</a>
     </form>
 {% endblock %}

@@ -3,7 +3,7 @@ import sqlite3
  
 class DB:
     def __init__(self):
-        self.conn = sqlite3.connect('C:\\temp\\web\\users.db', check_same_thread=False)
+        self.conn = sqlite3.connect('users.db', check_same_thread=False)
 ##        self.conn = conn
  
     def get_connection(self):
@@ -43,6 +43,12 @@ class UserModel:
         cursor.execute("SELECT * FROM users WHERE id = ?", (str(user_id),))
         row = cursor.fetchone()
         return row
+
+    def get_by_name(self, name):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM users WHERE user_name = ?", (str(name),))
+        row = cursor.fetchone()
+        return row
      
     def get_all(self):
         cursor = self.connection.cursor()
@@ -56,3 +62,12 @@ class UserModel:
                        (user_name, password_hash))
         row = cursor.fetchone()
         return (True, row[0]) if row else (False,)
+
+##    def delete_all(self):
+##        cursor = self.connection.cursor()
+##        cursor.execute('DELETE FROM users')
+##        cursor.close()
+##        self.connection.commit()
+        
+##db = DB()
+##um = UserModel(db.get_connection())
