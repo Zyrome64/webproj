@@ -3,7 +3,7 @@ import sqlite3
  
 class DB:
     def __init__(self):
-        self.conn = sqlite3.connect('users.db', check_same_thread=False)
+        self.conn = sqlite3.connect('C:\\temp\\web\\users.db', check_same_thread=False)
 ##        self.conn = conn
  
     def get_connection(self):
