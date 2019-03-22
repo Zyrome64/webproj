@@ -118,7 +118,7 @@ def drive():
                 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
                 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-            </body>'''.format(session['username'])
+           </body>'''.format(session['username'])
     elif request.method == 'POST':
         f = request.files['file']
         if not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username']):
@@ -127,8 +127,8 @@ def drive():
         if session['remember_me'] is None:
             session['remember_me'] = False
         return redirect('/drive')
-        
-    
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -141,7 +141,7 @@ def login():
         password = form.password.data
         remember_me = form.remember_me.data
         user_model = UserModel(dbase.get_connection())
-        exists = user_model.exists(user_name, password)        
+        exists = user_model.exists(user_name, password)
         if not exists[0]:
             return render_template('login.html', title='Авторизация', form=form, error='Неверное имя пользователя или пароль!')
         session['username'] = user_name
@@ -170,6 +170,8 @@ def register():
         exists = user_model.exists(user_name, password)
         session['username'] = user_name
         session['user_id'] = exists[1]
+  #
+        #      os.mkdir('static/' + user_name)
         return redirect("/drive")
     
 ##    if form.validate_on_submit():
