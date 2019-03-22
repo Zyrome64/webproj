@@ -26,7 +26,7 @@ def drive():
             session['remember_me'] = None
         return '''<head>
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-                
+
             </head>
             <body>
                 <nav class="navbar fixed-top navbar-light bg-light">
@@ -41,7 +41,7 @@ def drive():
                           </li>
                         </ul>
                       </span>
-                      <span class='letter'>Cloud</span>
+                      <span>Cloud</span>
                     </span>
                     <span class="navbar-text"></span>
                       <ul class="nav">
