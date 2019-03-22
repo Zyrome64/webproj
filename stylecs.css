@@ -1,0 +1,9 @@
+.letter {
+ color: red;
+ font-size: 200%;
+ font-family: serif;
+}
+.litt {
+ list-style-type: none;
+ font-size: 80%;
+}

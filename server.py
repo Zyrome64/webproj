@@ -26,11 +26,21 @@ def drive():
             session['remember_me'] = None
         return '''<head>
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+                <link rel="stylesheet" href="stylecs.css">
             </head>
             <body>
                 <nav class="navbar fixed-top navbar-light bg-light">
-                    
+                    <span>
+                      <span class="navbar-text">
+                          <ul>
+                              <li class="litt">Dou</li>
+                              <li class="litt">Ble</li>
+                          </ul>
+                        </span>
+    				  <span class="navbar-text">
+                        <span class="letter">Cloud</span>
+                      </span>
+    				</span>
                     <span class="navbar-text"></span>
                       <ul class="nav">
                        <li class="nav-item dropdown">
