@@ -30,19 +30,7 @@ def drive():
             </head>
             <body>
                 <nav class="navbar fixed-top navbar-light bg-light">
-                    <span class='navbar-text">
-                      <span>
-                        <ul>
-                          <li>
-                            Dou
-                          </li>
-                          <li>
-                            Ble
-                          </li>
-                        </ul>
-                      </span>
-                      <span>Cloud</span>
-                    </span>
+                    
                     <span class="navbar-text"></span>
                       <ul class="nav">
                        <li class="nav-item dropdown">
