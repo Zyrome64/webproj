@@ -26,17 +26,7 @@ def drive():
             session['remember_me'] = None
         return '''<head>
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-                <style>
-                    .letter { 
-                     color: red; 
-                     font-size: 200%;
-                     font-family: serif;
-                    }
-                    LI {
-                     list-style-type: none;
-                     font-size: 80%;
-                    }
-                  </style> 
+                
             </head>
             <body>
                 <nav class="navbar fixed-top navbar-light bg-light">
@@ -121,9 +111,9 @@ def drive():
            </body>'''.format(session['username'])
     elif request.method == 'POST':
         f = request.files['file']
-        if not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username']):
-            os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'])
-        print(f.save(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\' + f.filename))
+   #     if not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username']):
+  #          os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'])
+        print(f.save('static\\' + session['username'] + '\\files\\' + f.filename))
         if session['remember_me'] is None:
             session['remember_me'] = False
         return redirect('/drive')
@@ -170,7 +160,8 @@ def register():
         exists = user_model.exists(user_name, password)
         session['username'] = user_name
         session['user_id'] = exists[1]
-  #
+        os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + user_name)
+        os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + user_name + '\\files')
         #      os.mkdir('static/' + user_name)
         return redirect("/drive")
     
