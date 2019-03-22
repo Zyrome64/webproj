@@ -170,7 +170,6 @@ def register():
         exists = user_model.exists(user_name, password)
         session['username'] = user_name
         session['user_id'] = exists[1]
-        os.mkdir('static/' + user_name)
         return redirect("/drive")
     
 ##    if form.validate_on_submit():
