@@ -19,6 +19,7 @@ def index():
 
 @app.route('/drive', methods=['GET', 'POST'])
 def drive():
+    print(os.path.dirname(os.path.abspath(__file__)))
     if request.method == 'GET':
         if not('username' in session.keys()) or session['remember_me'] is None:
             return redirect("/login")
@@ -30,21 +31,11 @@ def drive():
             </head>
             <body>
                 <nav class="navbar fixed-top navbar-light bg-light">
-                    <span>
-                      <span class="navbar-text">
-                          <ul>
-                              <li class="litt">Dou</li>
-                              <li class="litt">Ble</li>
-                          </ul>
-                        </span>
-    				  <span class="navbar-text">
-                        <span class="letter">Cloud</span>
-                      </span>
-    				</span>
+                    
                     <span class="navbar-text"></span>
                       <ul class="nav">
                        <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{0}</a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">''' + session['username'] + '''</a>
                         <div class="dropdown-menu">
                           <a class="dropdown-item" href="/login">Выйти</a>
                         </div>
@@ -55,20 +46,49 @@ def drive():
                 <p>
                     <div class="row">
                       <div class="col-3">
-                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                          <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">.</a>
-                          <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
-                          <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
-                          <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical"> 
+                          <a class="nav-link active" id="v-pills-nodir-tab" data-toggle="pill" href="#v-pills-nodir" role="tab" aria-controls="v-pills-nodir" aria-selected="true">.</a>
+                          
+                          ''' + ''.join([('<a class="nav-link" id="v-pills-' + folder + '-tab" data-toggle="pill" href="#v-pills-' + folder + '" role="tab" aria-controls="v-pills-' + folder + '" aria-selected="false">' + folder + '</a>') for folder in list(filter(lambda x: os.path.isdir(x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '''
                         </div>
                       </div>
                       
                       <div class="col-9">
                         <div class="tab-content" id="v-pills-tabContent">
-                          <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...</div>
-                          <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
-                          <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
-                          <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+                          <div class="tab-pane fade show active" id="v-pills-nodir" role="tabpanel" aria-labelledby="v-pills-nodir-tab">''' + ''.join(['''
+
+
+
+
+
+                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{0}</a>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item" href="/download/nodir/{0}">Скачать</a>
+                          <a class="dropdown-item" href="/delete/nodir/{0}">Удалить</a>os.path.dirname(os.path.abspath(__file__))
+                        </div>
+                      </li>
+
+
+
+                      '''.format(filename) for filename in list(map(lambda x: not os.path.isdir(x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '</div>' + ''.join([('''<div class="tab-pane fade" id="v-pills-{0}" role="tabpanel" aria-labelledby="v-pills-{0}-tab">
+                <a class="nav-link" id="v-pills-{0}-tab" data-toggle="pill" href="#v-pills-{0}" role="tab" aria-controls="v-pills-{0}" aria-selected="false">'''.format(folder) + ''.join(['''
+
+
+
+
+
+                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">''' + filename + '''</a>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item" href="/download/''' + folder + '/' + filename + '''">Скачать</a>
+                          <a class="dropdown-item" href="/delete/''' + folder + '/' +  filename + '''">Удалить</a>
+                        </div>
+                      </li>
+
+
+
+                      ''' for filename in list(filter(lambda x: not os.path.isdir(x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder)))]) + ' </a></div>') for folder in list(filter(os.path.isdir, os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '''
                         </div>
                       </div>
                     </div>
@@ -106,12 +126,12 @@ def drive():
                 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
                 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-           </body>'''.format(session['username'])
+           </body>'''
     elif request.method == 'POST':
         f = request.files['file']
    #     if not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username']):
   #          os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'])
-        print(f.save('static\\' + session['username'] + '\\files\\' + f.filename))
+        print(f.save(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + f.filename))
         if session['remember_me'] is None:
             session['remember_me'] = False
         return redirect('/drive')
