@@ -1,15 +1,16 @@
 ﻿{% extends "base.html" %}
  
 {% block content %}
-    <h1>Регистрация</h1>
+    <h1 class="text-white">Регистрация</h1>
+
     
 {% if error != "" %}
         <div class="alert alert-danger" role="alert">{{error}}</div> {% endif %}
-<form action="" method="post" novalidate>
+<p action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
-            {{ form.username.label }}<br>
-            {{ form.username }}<br>
+            <span class="text-white">{{ form.username.label }}</span><br>
+            <span class="text-white">{{ form.username }}</span><br>
            {% for error in form.username.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
@@ -17,14 +18,45 @@
             {% endfor %}
         </p>
         <p>
-            {{ form.password.label }}<br>
-            {{ form.password }}<br>
+            <span class="text-white">{{ form.password.label }}</span><br>
+            <span class="text-white">{{ form.password }}</span><br>
             {% for error in form.password.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
             {% endfor %}
         </p>
-          <p>{{ form.submit() }}</p> <a href="/login">Логин</a>
+        <p>
+            <span class="text-white">{{ form.email.label }}</span><br>
+            <span class="text-white">{{ form.email }}</span><br>
+            {% for error in form.email.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            <span class="text-white">{{ form.name.label }}</span><br>
+            <span class="text-white">{{ form.name }}</span><br>
+            {% for error in form.name.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            <span class="text-white">{{ form.photo.label }}</span><br>
+            <span class="text-white">{{ form.photo }}</span><br>
+            {% for error in form.photo.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+
+        </p>
+          <p>{{ form.submit() }}</p>
+          <span class="text-white">Если вы уже авторизированы ↓↓↓</span>
+          </br>
+          <span class="text-white">                                            </span><a class="text-light" href="/login">Авторизация</a>
     </form>
 {% endblock %}
