@@ -82,7 +82,7 @@ def drive():
                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical"> 
                           <a class="nav-link active" id="v-pills-nodir-tab" data-toggle="pill" href="#v-pills-nodir" role="tab" aria-controls="v-pills-nodir" aria-selected="true">.</a>
                           
-                          ''' + ''.join(['<a class="nav-link" id="v-pills-{0}-tab" data-toggle="pill" href="#v-pills-{0}" role="tab" aria-controls="v-pills-{0}" aria-selected="false">{0}</a>'.format(folder) for folder in list(filter(lambda x: os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + 'w' + '\\files\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '''
+                          ''' + ''.join(['<a class="nav-link" id="v-pills-{0}-tab" data-toggle="pill" href="#v-pills-{0}" role="tab" aria-controls="v-pills-{0}" aria-selected="false">{0}</a>'.format(folder) for folder in list(filter(lambda x: os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '''
                         </div>
                       </div>
                       
@@ -120,7 +120,7 @@ def drive():
 
 
 
-                      ''') for filename in list(filter(lambda x: not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder)))]) + '</div>') for folder in list(filter(lambda x: os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '''
+                      ''') for filename in list(filter(lambda x: not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder)))]) + '</div>') for folder in list(filter(lambda x: os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session + '\\files\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '''
                         </div>
                       </div>
                     </div>
