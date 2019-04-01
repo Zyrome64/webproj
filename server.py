@@ -1,7 +1,8 @@
-from flask import Flask, request, redirect, render_template, session
+from flask import Flask, request, redirect, render_template, session, send_from_directory
 from loginform import LoginForm
 from registerform import RegisterForm
 from db import DB, UserModel
+from shutil import copy
 import os
 
 dbase = DB()
@@ -19,7 +20,6 @@ def index():
 
 @app.route('/drive', methods=['GET', 'POST'])
 def drive():
-    print(os.path.dirname(os.path.abspath(__file__)))
     if request.method == 'GET':
         if not('username' in session.keys()) or session['remember_me'] is None:
             return redirect("/login")
@@ -27,7 +27,6 @@ def drive():
             session['remember_me'] = None
         return '''<head>
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-                <link rel="stylesheet" href="style.css">
             </head>
             <body>
                 <nav class="navbar fixed-top navbar-light bg-light">
@@ -44,12 +43,46 @@ def drive():
                 </nav>
                 </br></br>
                 <p>
+                    <form method="POST" enctype="multipart/form-data">
+                    
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addfile">Добавить файл</button>
+                    
+
+                    <div class="modal fade" id="addfile" tabindex="-1" role="dialog" aria-labelledby="addfiletitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="addfiletitle">Добавление файла</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="form-group">
+                                    <label for="file1">Приложите файл</label>
+                                    <input type="file" class="form-control-file" id="file1" name="file">
+                            <input class="form-control" type="text" name="foldername" placeholder="Название папки...">
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                            <button type="submit" class="btn btn-primary">Добавить</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </form>
+
+
+
+
+                    
                     <div class="row">
                       <div class="col-3">
                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical"> 
                           <a class="nav-link active" id="v-pills-nodir-tab" data-toggle="pill" href="#v-pills-nodir" role="tab" aria-controls="v-pills-nodir" aria-selected="true">.</a>
                           
-                          ''' + ''.join([('<a class="nav-link" id="v-pills-' + folder + '-tab" data-toggle="pill" href="#v-pills-' + folder + '" role="tab" aria-controls="v-pills-' + folder + '" aria-selected="false">' + folder + '</a>') for folder in list(filter(lambda x: os.path.isdir(x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '''
+                          ''' + ''.join(['<a class="nav-link" id="v-pills-{0}-tab" data-toggle="pill" href="#v-pills-{0}" role="tab" aria-controls="v-pills-{0}" aria-selected="false">{0}</a>'.format(folder) for folder in list(filter(lambda x: os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + 'w' + '\\files\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '''
                         </div>
                       </div>
                       
@@ -61,66 +94,38 @@ def drive():
 
 
 
-                        <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{0}</a>
-                        <div class="dropdown-menu">
+                        <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" id="{0}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{0}</a>
+                        <div class="dropdown-menu" aria-labelledby="{0}">
                           <a class="dropdown-item" href="/download/nodir/{0}">Скачать</a>
-                          <a class="dropdown-item" href="/delete/nodir/{0}">Удалить</a>os.path.dirname(os.path.abspath(__file__))
+                          <a class="dropdown-item" href="/delete/nodir/{0}">Удалить</a>
                         </div>
-                      </li>
+                        </div>
 
 
-
-                      '''.format(filename) for filename in list(map(lambda x: not os.path.isdir(x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '</div>' + ''.join([('''<div class="tab-pane fade" id="v-pills-{0}" role="tabpanel" aria-labelledby="v-pills-{0}-tab">
-                <a class="nav-link" id="v-pills-{0}-tab" data-toggle="pill" href="#v-pills-{0}" role="tab" aria-controls="v-pills-{0}" aria-selected="false">'''.format(folder) + ''.join(['''
-
+                      '''.format(filename) for filename in list(filter(lambda x: not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '</div>' + ''.join([('<div class="tab-pane fade" id="v-pills-{0}" role="tabpanel" aria-labelledby="v-pills-{0}-tab">'.format(folder) + ''.join([('''
 
 
 
 
-                        <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">''' + filename + '''</a>
-                        <div class="dropdown-menu">
+
+                        <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" id=''' + filename + ''' data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">''' + filename + '''</a>
+                        <div class="dropdown-menu" aria-labelledby= ''' + filename + '''>
                           <a class="dropdown-item" href="/download/''' + folder + '/' + filename + '''">Скачать</a>
                           <a class="dropdown-item" href="/delete/''' + folder + '/' +  filename + '''">Удалить</a>
+                          
                         </div>
-                      </li>
+                      </div>
 
 
 
-                      ''' for filename in list(filter(lambda x: not os.path.isdir(x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder)))]) + ' </a></div>') for folder in list(filter(os.path.isdir, os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '''
+                      ''') for filename in list(filter(lambda x: not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder)))]) + '</div>') for folder in list(filter(lambda x: os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + 'w' + '\\files\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '''
                         </div>
                       </div>
                     </div>
 
-                    <form method="POST" enctype="multipart/form-data">
                     
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Добавить файл</button>
-                    
-
-                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalCenterTitle">Добавление файла</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            <div class="form-group">
-                                    <label for="file1">Приложите файл</label>
-                                    <input type="file" class="form-control-file" id="file1" name="file">
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                            <button type="submit" class="btn btn-primary">Добавить</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    </form>
                     
                 </p>
                 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -129,12 +134,13 @@ def drive():
            </body>'''
     elif request.method == 'POST':
         f = request.files['file']
-   #     if not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username']):
-  #          os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'])
-        print(f.save(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + f.filename))
+        if request.form['foldername'] != '' and not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + request.form['foldername']):
+            os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + request.form['foldername'])
+        f.save(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + request.form['foldername'] + '\\' + f.filename)
         if session['remember_me'] is None:
             session['remember_me'] = False
         return redirect('/drive')
+            
 
 
 
@@ -157,6 +163,7 @@ def login():
         session['remember_me'] = remember_me
 ##        print(remember_me)
         return redirect("/drive")
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -188,5 +195,35 @@ def register():
     return render_template('login.html', title='Авторизация', form=form)
 
 
+@app.route('/delete/<folder>/<file>')
+def delete(folder, file):
+    if not 'username' in session.keys():
+        return redirect('/login')
+    if folder == 'nodir':
+        if os.path.isfile(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + file):
+            os.remove(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + file)
+    else:
+        if os.path.isfile(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + file):
+            os.remove(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + file)
+    if session['remember_me'] is None:
+        session['remember_me'] = False
+    return redirect('/drive')
+
+
+@app.route('/download/<folder>/<file>')
+def download(folder, file):
+    if not 'username' in session.keys():
+        return redirect('/login')
+    if session['remember_me'] is None:
+        session['remember_me'] = False
+    if folder == 'nodir':
+        if os.path.isfile(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + file):
+            return send_from_directory(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files', file, as_attachment=True)
+    else:
+        if os.path.isfile(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + file):
+            return send_from_directory(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder, file, as_attachment=True)
+##    return redirect('/drive')
+
+    
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')

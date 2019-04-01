@@ -1,9 +1,10 @@
 import sqlite3
+import os
  
  
 class DB:
     def __init__(self):
-        self.conn = sqlite3.connect('C:\\temp\\web\\users.db', check_same_thread=False)
+        self.conn = sqlite3.connect(os.path.dirname(os.path.abspath(__file__)) + '\\users.db', check_same_thread=False)
 ##        self.conn = conn
  
     def get_connection(self):
