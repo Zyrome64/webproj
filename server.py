@@ -21,7 +21,7 @@ def index():
 @app.route('/drive', methods=['GET', 'POST'])
 def drive():
     if request.method == 'GET':
-        if not('username' in session.keys()) or session['remember_me'] is None:
+        if not('username' in session.keys()) or not('remember_me' if session.keys()):
             return redirect("/login")
         if not session['remember_me']:
             session['remember_me'] = None
