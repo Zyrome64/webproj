@@ -120,7 +120,7 @@ def drive():
 
 
 
-                      ''') for filename in list(filter(lambda x: not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder)))]) + '</div>') for folder in list(filter(lambda x: os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session + '\\files\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '''
+                      ''') for filename in list(filter(lambda x: not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder)))]) + '</div>') for folder in list(filter(lambda x: os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + x), os.listdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files')))]) + '''
                         </div>
                       </div>
                     </div>
