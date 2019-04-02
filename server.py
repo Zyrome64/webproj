@@ -52,6 +52,7 @@ def drive():
                         .litt{
                             margin-left: 15px;
                         }
+                        
                         #footer {
                             position: fixed;
                             left: 0; 
@@ -60,15 +61,24 @@ def drive():
                             width: 100%;
                             height: 5%;
                        }
-                           #footer div {
+                       
+                        #footer div {
                             padding: 10px;
                             background: rgba(52, 58, 64, 1); 
+                       }
+                       
+                       .searcher{
+                            margin-left: 30px;
                        }
                     </style>
                 </head>
                 <body class="bg-secondary">
                     <nav class="navbar fixed-top navbar-dark bg-dark">
-                        <span><a href="http://127.0.0.1:8080/drive"><img src="static/img/LogoDarkUndStilished.png" width="130" height="50" alt="ERROR"></span>
+                        <span>
+                            <a href="http://127.0.0.1:8080/drive"><img src="static/img/LogoDarkUndStilished.png" width="130" height="50" alt="ERROR">
+                            <input class="bg-dark searcher" type="text" placeholder="   Поиск">
+                        </span>
+                     
                         <span class="navbar-text"></span>
                           <ul class="nav">
                            <li class="nav-item dropdown">
@@ -207,6 +217,7 @@ def login():
             user_name = form.username.data
             password = form.password.data
             remember_me = form.remember_me.data
+            # Здесь надо сделать проверку на наличие символов в нике и пароле, чтобы они не были пустыми
             user_model = UserModel(dbase.get_connection())
             exists = user_model.exists(user_name, password)
             if not exists[0]:
@@ -214,7 +225,7 @@ def login():
             session['username'] = user_name
             session['user_id'] = exists[1]
             session['remember_me'] = remember_me
-    ##        print(remember_me)
+            #print(remember_me)
             return redirect("/drive")
     except:
         redirect('/404')
