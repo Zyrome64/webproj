@@ -46,6 +46,8 @@ def drive():
     if request.method == 'GET':
         if not('username' in session.keys()) or not('remember_me' in session.keys()):
             return redirect("/login")
+        if session['username'] is None:
+            return redirect("/login")
         if not session['remember_me']:
             session['remember_me'] = None
         return '''<head>
