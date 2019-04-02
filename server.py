@@ -193,14 +193,22 @@ def drive():
            
                 '''
     elif request.method == 'POST':
+        foldername = request.form['foldername'].replace(' ', '_')
+
+        if '/' in foldername:
+            foldername = foldername.split('/')[-1]
+        if '\\' in foldername:
+            foldername = foldername.split('\\')[-1]
+        if foldername != '' and not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + foldername):
+            os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + foldername)
+
         try:
             f = request.files['file']
         except Exception:
             return redirect('/drive')
+
         if f.filename:
-            if request.form['foldername'] != '' and not os.path.isdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + request.form['foldername']):
-                os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + request.form['foldername'])
-            f.save(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + request.form['foldername'] + '\\' + f.filename)
+            f.save(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + foldername + '\\' + f.filename.replace(' ', '_'))
             if session['remember_me'] is None:
                 session['remember_me'] = False
             return redirect('/drive')
