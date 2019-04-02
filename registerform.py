@@ -17,7 +17,7 @@ class RegisterForm(FlaskForm):
     username = StringField('Логин', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     email = StringField('Email:', validators=[Email()])
-    name = StringField('Name:', validators=[DataRequired()])
+    name = StringField('Имя:', validators=[DataRequired()])
     photo = FileField(validators=[FileRequired()])
 
     recaptcha = RecaptchaField()
