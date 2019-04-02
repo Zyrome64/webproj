@@ -81,7 +81,7 @@ def drive():
                 <body class="bg-secondary">
                     <nav class="navbar fixed-top navbar-dark bg-dark">
                         <span>
-                            <a href="http://127.0.0.1:8080/drive"><img src="static/img/LogoDarkUndStilished.png" width="130" height="50" alt="ERROR">
+                            <a href="http://127.0.0.1:8080/drive"><img src="static/img/LogoDarkUndStilished.png" width="130" height="50" alt="ERROR"></a>
                             <input class="bg-dark searcher text-white" type="text" placeholder="   Поиск">
                         </span>
                      
