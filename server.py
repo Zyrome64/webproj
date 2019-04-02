@@ -346,14 +346,7 @@ def not_found_error():
                     <nav class="navbar fixed-top navbar-dark bg-dark">
                         <span><a href="127.0.0.1:8080/drive"><img src="static/img/LogoDarkUndStilished.png" width="130" height="50" alt="ERROR"></span>
                         <span class="navbar-text"></span>
-                          <ul class="nav">
-                           <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><font color="white">''' + (session['username'] if 'username' in session.keys() else 'NoUser') + '''</font></a>
-                            <div class="dropdown-menu bg-secondary">
-                              <a class="dropdown-item bg-secondary text-white" href="/login">''' + ('Выйти' if 'username' in session.keys() else 'Войти') + '''</a>
-                            </div>
-                          </li>
-                        </ul>
+                          
                     </nav>
                     </br></br></br>
                     <p>
