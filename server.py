@@ -239,76 +239,85 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'GET':
-        form = RegisterForm()
-        return render_template('register.html', title='Регистрация', form=form, error='')
-    elif request.method == 'POST':
-        print('Заходит в пост')
-        form = RegisterForm()
-        user_name = form.username.data
-        password = form.password.data
-        email = form.email.data
-        name = form.name.data
-        photo = form.photo.data
-        print(user_name, password)
-        user_model = UserModel(dbase.get_connection())
-        if user_name == '':
-            return render_template('register.html', title='Регистрация', form=form, error='Введите имя пользователя!')
-        if password == '':
-            return render_template('register.html', title='Регистрация', form=form, error='Введите пароль!')
-        if not(get_address(email)):
-            return render_template('register.html', title='Регистрация', form=form, error='Неверный email!')
-        if not user_model.insert(user_name, password):
-            return render_template('register.html', title='Регистрация', form=form, error='Данный пользователь уже существует!')
-        exists = user_model.exists(user_name, password)
-        session['username'] = user_name
-        session['user_id'] = exists[1]
-        os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + user_name)
-        os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + user_name + '\\files')
-        # photo.save(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + "\\avatar.png")
-        #      os.mkdir('static/' + user_name)
-        return redirect("/drive")
+    try:
+        if request.method == 'GET':
+            form = RegisterForm()
+            return render_template('register.html', title='Регистрация', form=form, error='')
+        elif request.method == 'POST':
+            print('Заходит в пост')
+            form = RegisterForm()
+            user_name = form.username.data
+            password = form.password.data
+            email = form.email.data
+            name = form.name.data
+            photo = form.photo.data
+            print(user_name, password)
+            user_model = UserModel(dbase.get_connection())
+            if user_name == '':
+                return render_template('register.html', title='Регистрация', form=form, error='Введите имя пользователя!')
+            if password == '':
+                return render_template('register.html', title='Регистрация', form=form, error='Введите пароль!')
+            if not(get_address(email)):
+                return render_template('register.html', title='Регистрация', form=form, error='Неверный email!')
+            if not user_model.insert(user_name, password):
+                return render_template('register.html', title='Регистрация', form=form, error='Данный пользователь уже существует!')
+            exists = user_model.exists(user_name, password)
+            session['username'] = user_name
+            session['user_id'] = exists[1]
+            os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + user_name)
+            os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + user_name + '\\files')
+            # photo.save(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + "\\avatar.png")
+            #      os.mkdir('static/' + user_name)
+            return redirect("/drive")
 
-    return render_template('login.html', title='Авторизация', form=form)
+        return render_template('login.html', title='Авторизация', form=form)
+    except:
+        return redirect('/404')
 ##    if form.validate_on_submit():
 ##        return redirect('/success')
 
 
 @app.route('/delete/<folder>/<file>')
 def delete(folder, file):
-    if not 'username' in session.keys():
-        return redirect('/login')
-    if folder == 'nodir':
-        if os.path.isfile(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + file):
-            os.remove(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + file)
+    try:
+        if not 'username' in session.keys():
+            return redirect('/login')
+        if folder == 'nodir':
+            if os.path.isfile(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + file):
+                os.remove(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + file)
+            else:
+                return redirect('/404')
         else:
-            return redirect('/404')
-    else:
-        if os.path.isfile(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + file):
-            os.remove(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + file)
-        else:
-            return redirect('/404')
-    if session['remember_me'] is None:
-        session['remember_me'] = False
-    return redirect('/drive')
+            if os.path.isfile(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + file):
+                os.remove(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + file)
+            else:
+                return redirect('/404')
+        if session['remember_me'] is None:
+            session['remember_me'] = False
+        return redirect('/drive')
+    except:
+        return redirect('/404')
 
 
 @app.route('/download/<folder>/<file>')
 def download(folder, file):
-    if not 'username' in session.keys():
-        return redirect('/login')
-    if session['remember_me'] is None:
-        session['remember_me'] = False
-    if folder == 'nodir':
-        if os.path.isfile(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + file):
-            return send_from_directory(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files', file, as_attachment=True)
+    try:
+        if not 'username' in session.keys():
+            return redirect('/login')
+        if session['remember_me'] is None:
+            session['remember_me'] = False
+        if folder == 'nodir':
+            if os.path.isfile(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + file):
+                return send_from_directory(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files', file, as_attachment=True)
+            else:
+                return redirect('/404')
         else:
-            return redirect('/404')
-    else:
-        if os.path.isfile(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + file):
-            return send_from_directory(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder, file, as_attachment=True)
-        else:
-            return redirect('/404')
+            if os.path.isfile(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder + '\\' + file):
+                return send_from_directory(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' + folder, file, as_attachment=True)
+            else:
+                return redirect('/404')
+    except:
+        return redirect('/404')
 ##    return redirect('/drive')
 
 
