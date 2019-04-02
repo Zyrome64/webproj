@@ -251,6 +251,7 @@ def register():
             email = form.email.data
             name = form.name.data
             photo = form.photo.data
+            accepting = form.accepting.data
             print(user_name, password)
             user_model = UserModel(dbase.get_connection())
             if user_name == '':
@@ -261,6 +262,9 @@ def register():
                 return render_template('register.html', title='Регистрация', form=form, error='Неверный email!')
             if not user_model.insert(user_name, password):
                 return render_template('register.html', title='Регистрация', form=form, error='Данный пользователь уже существует!')
+            if not(accepting):
+                return render_template('register.html', title='Регистрация', form=form,
+                                       error='Необходимо дать согласие!')
             exists = user_model.exists(user_name, password)
             session['username'] = user_name
             session['user_id'] = exists[1]
