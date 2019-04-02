@@ -115,7 +115,7 @@ def drive():
                             <div class="form-group text-white">
                                     <label for="file1">Приложите файл</label>
                                     <input type="file" class="form-control-file bg-dark" id="file1" name="file">
-                            <input class="form-control bg-dark" type="text" name="foldername" placeholder="Название папки...">
+                            <input class="form-control bg-dark text-white" type="text" name="foldername" placeholder="Название папки...">
                             </div>
                           </div>
                           <div class="modal-footer">
@@ -344,7 +344,7 @@ def not_found_error():
                 </head>
                 <body class="bg-secondary">
                     <nav class="navbar fixed-top navbar-dark bg-dark">
-                        <span><a href="127.0.0.1:8080/drive"><img src="static/img/LogoDarkUndStilished.png" width="130" height="50" alt="ERROR"></span>
+                        <span><a href="http://127.0.0.1:8080/drive"><img src="static/img/LogoDarkUndStilished.png" width="130" height="50" alt="ERROR"></span>
                         <span class="navbar-text"></span>
                           
                     </nav>
