@@ -21,7 +21,7 @@ class RegisterForm(FlaskForm):
     email = StringField('*Email:', validators=[Email()])
     name = StringField('Name:', validators=[DataRequired()])
     photo = FileField('Image:', validators=[FileRequired(),
-        FileAllowed(['jpg', 'png'], 'Images only!')], name="photo")
+        FileAllowed(['jpg', 'png'], 'Images only!')])
     accepting = BooleanField('Я даю согласие на обработку персональных данных')
     recaptcha = RecaptchaField()
     submit = SubmitField('Зарегестрироваться')
