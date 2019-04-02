@@ -4,6 +4,19 @@ from registerform import RegisterForm
 from db import DB, UserModel
 from shutil import copy
 import os
+from re import *
+
+
+
+def get_address(address):
+    pattern = compile('''(^|\s)[-a-z0-9_.]+@([-a-z0-9]+\.)+[a-z]{2,6}(\s|$)''')
+    is_valid = pattern.match(address)
+    if is_valid:
+        return True
+    else:
+        return False
+
+
 
 dbase = DB()
 ##nm = UserModel(dbase.get_connection())
@@ -214,6 +227,7 @@ def register():
             form = RegisterForm()
             return render_template('register.html', title='Регистрация', form=form, error='')
         elif request.method == 'POST':
+            print('Заходит в пост')
             form = RegisterForm()
             user_name = form.username.data
             password = form.password.data
@@ -228,6 +242,8 @@ def register():
                 return render_template('register.html', title='Регистрация', form=form, error='Введите имя пользователя!')
             if password == '':
                 return render_template('register.html', title='Регистрация', form=form, error='Введите пароль!')
+            if not(get_address(email)):
+                return render_template('register.html', title='Регистрация', form=form, error='Неверный EMail!')
             exists = user_model.exists(user_name, password)
             session['username'] = user_name
             session['user_id'] = exists[1]
