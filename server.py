@@ -82,7 +82,7 @@ def drive():
                     <nav class="navbar fixed-top navbar-dark bg-dark">
                         <span>
                             <a href="http://127.0.0.1:8080/drive"><img src="static/img/LogoDarkUndStilished.png" width="130" height="50" alt="ERROR">
-                            <input class="bg-dark searcher" type="text" placeholder="   Поиск">
+                            <input class="bg-dark searcher text-white" type="text" placeholder="   Поиск">
                         </span>
                      
                         <span class="navbar-text"></span>
