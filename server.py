@@ -55,7 +55,7 @@ def drive():
                 </head>
                 <body class="bg-secondary">
                     <nav class="navbar fixed-top navbar-dark bg-dark">
-                        <span><a href="127.0.0.1:8080/drive"><img src="static/img/LogoDarkUndStilished.png" width="130" height="50" alt="ERROR"></span>
+                        <span><a href="http://127.0.0.1:8080/drive"><img src="static/img/LogoDarkUndStilished.png" width="130" height="50" alt="ERROR"></span>
                         <span class="navbar-text"></span>
                           <ul class="nav">
                            <li class="nav-item dropdown">
@@ -121,7 +121,7 @@ def drive():
     
     
                             <div class="dropdown">
-                            <a class="nav-link dropdown-toggle text-white" id="{0}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{0}</a>
+                            <a class="nav-link dropdown-toggle text-white" id="{0}" role="button" aria-haspopup="true" aria-expanded="false"  data-toggle="dropdown"  href="#" >{0}</a>
                             <div class="dropdown-menu bg-secondary text-white" aria-labelledby="{0}">
                               <a class="dropdown-item bg-secondary text-white" href="/download/nodir/{0}">Скачать</a>
                               <a class="dropdown-item bg-secondary text-white" href="/delete/nodir/{0}">Удалить</a>
@@ -136,7 +136,7 @@ def drive():
     
     
                             <div class="dropdown">
-                            <a class="nav-link dropdown-toggle text-white" id=''' + filename + '''data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">''' + filename + '''</a>
+                            <a class="nav-link dropdown-toggle text-white" id="''' + filename + '''" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">''' + filename + '''</a>
                             <div class="dropdown-menu bg-secondary text-white" aria-labelledby= ''' + filename + '''>
                               <a class="dropdown-item bg-secondary text-white" href="/download/''' + folder + '/' + filename + '''">Скачать</a>
                               <a class="dropdown-item bg-secondary text-white" href="/delete/''' + folder + '/' +  filename + '''">Удалить</a>
