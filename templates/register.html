@@ -54,6 +54,17 @@
         {% endfor %}
 
     </p>
+    </br>
+    <p>
+        <span class="text-white">{{ form.accepting.label }}</span><br>
+        <span class="text-white">{{ form.accepting }}</span><br>
+        {% for error in form.accepting.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+
+    </p>
       <p>{{ form.submit() }}</p>
       <span class="text-white">Если вы уже авторизированы ↓↓↓</span>
       </br>
