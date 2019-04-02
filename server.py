@@ -249,8 +249,7 @@ def register():
             session['user_id'] = exists[1]
             os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + user_name)
             os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + user_name + '\\files')
-            photo.save(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + '\\files\\' +
-                   request.form['foldername'] + '\\' + "avatar.png")
+            # photo.save(os.path.dirname(os.path.abspath(__file__)) + '\\static\\' + session['username'] + "\\avatar.png")
             #      os.mkdir('static/' + user_name)
             return redirect("/drive")
 
